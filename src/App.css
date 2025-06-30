@@ -1,0 +1,18 @@
+@import "tailwindcss";
+.scrollbar-dark::-webkit-scrollbar {
+  height: 1px;
+}
+
+.scrollbar-dark::-webkit-scrollbar-thumb {
+  background-color: #1d1d1d; /* abu gelap */
+  border-radius: 9999px;
+}
+
+.scrollbar-dark::-webkit-scrollbar-track {
+  background-color: #0e0e0e;
+}
+
+.scrollbar-dark {
+  scrollbar-color: #272727 #181818; /* hanya untuk Firefox */
+  scrollbar-width: thin;
+}
