@@ -7,6 +7,7 @@ import Sign from './pages/Sign'
 import Home from './pages/Home'
 import Search from './pages/Search'
 import User from './pages/User'
+import Book from './pages/Book'
 
 function App() {
   const router = createBrowserRouter([
@@ -25,6 +26,10 @@ function App() {
     {
       path:"/user",
       element: <User/>
+    },
+    {
+      path:"/book",
+      element: <Book/>
     },
   ])
 
