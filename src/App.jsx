@@ -8,10 +8,12 @@ import Home from './pages/Home'
 import Search from './pages/Search'
 import User from './pages/User'
 import Book from './pages/Book'
-import ActionBook from './pages/action/ActionBook'
+import ActionBookSave from './pages/action/ActionBookSave'
 import ReadPage from './pages/ReadPage'
 import AddBook from './pages/AddBook'
 import UpdateBook from './pages/UpdateBook'
+import ActionBookLike from './pages/action/ActionBookLike'
+import ActionBookHistories from './pages/action/ActionBookHistory'
 
 function App() {
   const router = createBrowserRouter([
@@ -32,15 +34,23 @@ function App() {
       element: <User/>
     },
     {
-      path:"/book",
+      path:"/book/:id",
       element: <Book/>
     },
     {
-      path:"/action/:action",
-      element: <ActionBook/>
+      path:"/action/save",
+      element: <ActionBookSave/>
     },
     {
-      path:"/page",
+      path:"/action/like",
+      element: <ActionBookLike/>
+    },
+    {
+      path:"/action/histories",
+      element: <ActionBookHistories/>
+    },
+    {
+      path:"/page/:book_id/:page_id",
       element: <ReadPage/>
     },
     {
@@ -48,7 +58,7 @@ function App() {
       element: <AddBook/>
     },
     {
-      path:"/book/update",
+      path:"/book/update/:id",
       element: <UpdateBook/>
     },
   ])

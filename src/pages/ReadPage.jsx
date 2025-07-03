@@ -1,50 +1,56 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ArrowLeft, ArrowRight } from "lucide-react";
+import axios from "axios";
+import { useNavigate, useParams } from "react-router-dom";
+const apiUrl = import.meta.env.VITE_API_URL;
 
-
-const halamanIsi = [
-  "Farhan membuka matanya perlahan. Dunia di sekelilingnya tampak remang-remang, dan rasa sakit masih menusuk-nusuk tubuhnya.",
-  "Ia mengingat kejadian semalam, saat keluarganya menjebaknya. Darahnya masih mendidih mengingat pengkhianatan itu.",
-  "Namun, tekad Farhan tak padam. Meski terluka parah, ia bersumpah akan kembali lebih kuat dari sebelumnya.",
-  "Pelan-pelan, ia bangkit, menatap langit dengan penuh keyakinan. Hari kebangkitannya telah tiba.",
-];
 
 const ReadPage = () => {
   const [currentPage, setCurrentPage] = useState(0);
+  const token = localStorage.getItem("token")
+  const {book_id} = useParams()
+  const {page_id} = useParams()
+  const [data, setData] = useState([])
+  const [newPage, setNewPage] = useState(page_id)
+  const navigate = useNavigate()
 
-  const nextPage = () => {
-    if (currentPage < halamanIsi.length - 1) {
-      setCurrentPage(currentPage + 1);
-    }
-  };
+  const fetchData = async() => {
+      const res = await axios.get(`${apiUrl}/api/auth/book/page/${book_id}/${newPage}`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      })
+      console.log(res.data.data)
+      setData(res.data.data)
+  }
 
-  const prevPage = () => {
-    if (currentPage > 0) {
-      setCurrentPage(currentPage - 1);
-    }
-  };
+
+  useEffect(() => {
+    fetchData()
+
+  },[newPage])
 
   return (
     <div className="max-w-md mx-auto bg-black min-h-screen text-white font-sans flex flex-col">
     <div className="max-w-md min-h-screen bg-[#191919] m-4 text-white p-6 flex flex-col justify-between">
       {/* Judul halaman */}
       <h1 className="text-xl font-bold mb-4 text-center">
-        Halaman {currentPage + 1}
+        Bab {data.page}
       </h1>
 
       {/* Isi halaman */}
       <p className="text-gray-300 text-lg leading-relaxed flex-1">
-        {halamanIsi[currentPage]}
+        {data.text}
       </p>
 
       {/* Tombol navigasi */}
     <div className="flex justify-between mt-8">
     {/* Tombol Sebelumnya */}
     <button
-        onClick={prevPage}
-        disabled={currentPage === 0}
+        onClick={() => setNewPage(data.prev_page)}
+        disabled={data.prev_page == null}
         className={`flex items-center gap-2 px-4 py-2 rounded font-semibold transition ${
-        currentPage === 0
+        data.prev_page == null
             ? "bg-gray-700 text-gray-400 cursor-not-allowed"
             : "bg-white text-black hover:bg-gray-200"
         }`}
@@ -55,10 +61,10 @@ const ReadPage = () => {
 
     {/* Tombol Berikutnya */}
     <button
-        onClick={nextPage}
-        disabled={currentPage === halamanIsi.length - 1}
+        onClick={() => setNewPage(data.next_page)}
+        disabled={data.next_page == null}
         className={`flex items-center gap-2 px-4 py-2 rounded font-semibold transition ${
-        currentPage === halamanIsi.length - 1
+        data.next_page == null
             ? "bg-gray-700 text-gray-400 cursor-not-allowed"
             : "bg-white text-black hover:bg-gray-200"
         }`}

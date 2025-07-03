@@ -1,122 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Bar from "../components/Bar";
-
-const books = [
-  {
-    id: 1,
-    title: "Aaron Bebas dari Penjara",
-    subtitle: "Balas Dendam",
-    cover: "https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/f4b5f511-640e-4fab-b0c5-2649be01a838.png",
-    views: "629.3K",
-  },
-  {
-    id: 2,
-    title: "Dokter Ajaib Calvin Hendra",
-    subtitle: "Dokter",
-    cover: "https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/ec222f7f-d733-4246-bafa-ab03ae4523ea.png",
-    views: "1.0M",
-  },
-  {
-    id: 3,
-    title: "Kebangkitan Dewa",
-    subtitle: "Dewa",
-    cover: "https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/79a83586-acbb-46e9-86da-ba4e9e982275.png",
-    views: "1.8M",
-  },
-  {
-    id: 4,
-    title: "Jiwa Bela Diri yang Tak Terkalahkan",
-    subtitle: "Bela Diri",
-    cover: "https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/e0e07b92-b84a-4416-be78-ed201c901f30.png",
-    views: "1.0M",
-  },
-  {
-    id: 5,
-    title: "Aku Adalah Dewa Pedang!",
-    subtitle: "Pedang",
-    cover: "https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/df9eb7df-18b9-42b9-8b62-7f555db5e94f.png",
-    views: "938.8K",
-  },
-  {
-    id: 6,
-    title: "Prajurit Amnesia",
-    subtitle: "Dewa Perang",
-    cover: "https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/6b94ad79-2385-4ae5-8eea-89a8cd63da61.png",
-    views: "514.0K",
-  },
-];
-
-const rankingData = [
-  { id: 1, title: "Dewa Pedang a Pedan a Pedan", author: "Hasbullah", genre: "Pedang", views: "6.7M", cover: "..." },
-  { id: 2, title: "Dewa Pedang", author: "Hasbullah", genre: "Pedang", views: "6.7M", cover: "..." },
-  { id: 3, title: "Dewa Pedang", author: "Hasbullah", genre: "Pedang", views: "6.7M", cover: "..." },
-  { id: 4, title: "Dewa Pedang", author: "Hasbullah", genre: "Pedang", views: "6.7M", cover: "..." },
-  { id: 5, title: "Dewa Pedang", author: "Hasbullah", genre: "Pedang", views: "6.7M", cover: "..." },
-  { id: 6, title: "Dewa Pedang", author: "Hasbullah", genre: "Pedang", views: "6.7M", cover: "..." },
-];
-
-const categories = [
-  {
-    id: 1,
-    title: "Dewa Pedang Pedang Pedang Pedang PedangPedang",
-    author: "Hasbullah",
-    genre: "Pedang",
-    views: "6.7M",
-    description: "Kisah seorang pendekar legendaris yang mencari makna kekuatan sejati.",
-    cover:
-      "https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/ab39a405-23d5-4e0b-9a80-a9a81523609d.png",
-  },
-  {
-    id: 2,
-    title: "Sang Tabib",
-    author: "Raka",
-    genre: "Medis",
-    views: "1.2M",
-    description: "Seorang dokter jenius yang menyembuhkan penyakit dengan kekuatan misterius.",
-    cover:
-      "https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/f4b5f511-640e-4fab-b0c5-2649be01a838.png",
-  },
-    {
-    id: 3,
-    title: "Dewa Pedang",
-    author: "Hasbullah",
-    genre: "Pedang",
-    views: "6.7M",
-    description: "Kisah seorang pendekar legendaris yang mencari makna kekuatan sejati.",
-    cover:
-      "https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/ab39a405-23d5-4e0b-9a80-a9a81523609d.png",
-  },
-  {
-    id: 4,
-    title: "Sang Tabib",
-    author: "Raka",
-    genre: "Medis",
-    views: "1.2M",
-    description: "Seorang dokter jenius yang menyembuhkan penyakit dengan kekuatan misterius.",
-    cover:
-      "https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/f4b5f511-640e-4fab-b0c5-2649be01a838.png",
-  },
-    {
-    id: 5,
-    title: "Dewa Pedang",
-    author: "Hasbullah",
-    genre: "Pedang",
-    views: "6.7M",
-    description: "Kisah seorang pendekar legendaris yang mencari makna kekuatan sejati.",
-    cover:
-      "https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/ab39a405-23d5-4e0b-9a80-a9a81523609d.png",
-  },
-  {
-    id: 6,
-    title: "Sang Tabib",
-    author: "Raka",
-    genre: "Medis",
-    views: "1.2M",
-    description: "Seorang dokter jenius yang menyembuhkan penyakit dengan kekuatan misterius.",
-    cover:
-      "https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/f4b5f511-640e-4fab-b0c5-2649be01a838.png",
-  },
-];
+import axios from "axios";
+const apiUrl = import.meta.env.VITE_API_URL;
 
 const banners = [
   {
@@ -140,21 +25,64 @@ const banners = [
 ];
 
 const Home = () => {
+  const token = localStorage.getItem("token")
   const [currentBanner, setCurrentBanner] = useState(0);
+  const [allCategory, setAllCategory] = useState([])
+  const [homeData, setHomeData] = useState([])
+  const [rankData, setRankData] = useState([])
+  const [categoryData, setCategoryData] = useState([])
+  const [pickCategory, setPickCategory] = useState(1)
+
+  const fetchHomeData = async() => {
+    const res = await axios.get(`${apiUrl}/api/auth/book/new`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+
+    setHomeData(res.data.data)
+  }
+
+  const fetcRankData = async() => {
+    const res = await axios.get(`${apiUrl}/api/auth/book/like`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+
+    setRankData(res.data.data)
+  }
+
+  const fetchAllCategory = async() => {
+    const res = await axios.get(`${apiUrl}/api/auth/categories`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+
+    console.log(res.data.data)
+    setAllCategory(res.data.data)
+  }
+
+  const fetcCatgeoryData = async() => { 
+    const res = await axios.get(`${apiUrl}/api/auth/book/${pickCategory}`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+
+    setCategoryData(res.data.data)
+  }
+
 
 useEffect(() => {
-  const interval = setInterval(() => {
-    setCurrentBanner((prev) => (prev + 1) % banners.length);
-  }, 3000); // 5 detik
 
-  return () => clearInterval(interval);
-}, []);
+  fetchHomeData()
+  fetcRankData()
+  fetchAllCategory()
+  fetcCatgeoryData()
+}, [pickCategory]);
 
-  const handleCategoryChange = (value) => {
-  // contoh filter
-  const filtered = allCategories.filter((item) => item.genre === value);
-  setCategories(value === "" ? allCategories : filtered);
-};
 
   return (
     <div className="max-w-md mx-auto bg-black min-h-screen text-white font-sans flex flex-col pb-[5rem]">
@@ -200,11 +128,11 @@ useEffect(() => {
       </div>
 
 
-      {/* Wajib Dibaca Section */}
+      {/* Terbaru */}
       <div className="m-[1rem] pt-[0.8rem] bg-[#090909] rounded-md">
         <section className="px-4 flex-1 flex flex-col">
           <div className="flex items-center mb-3">
-            <h2 className="font-bold text-lg">Wajib Dibaca</h2>
+            <h2 className="font-bold text-lg">Terbaru</h2>
             <span className="ml-auto text-gray-600 font-semibold uppercase text-xs select-none">
             
             </span>
@@ -212,16 +140,15 @@ useEffect(() => {
 
           {/* Grid of books */}
           <div className="grid grid-cols-3 gap-3 overflow-y-auto pb-4">
-            {books.map((book) => (
-              <article
+            {homeData.map((book) => (
+              <a href={`/book/${book.id}`}
                 key={book.id}
                 className=" rounded-md shadow-inner shadow-black/50 overflow-hidden cursor-pointer hover:shadow-gray-900 transition"
                 tabIndex={0}
-                aria-label={`${book.title}, genre ${book.subtitle}, ${book.views} views`}
               >
                 <div className="relative">
                   <img
-                    src={book.cover}
+                    src={`${apiUrl}/${book.image_path}`}
                     alt={`Cover book titled ${book.title} showing characteristic art`}
                     onError={(e) =>
                       (e.currentTarget.src =
@@ -246,16 +173,16 @@ useEffect(() => {
                         d="M15 10l4.553 2.276a1 1 0 010 1.448L15 16m-6 0L4.448 13.724a1 1 0 010-1.448L9 10m6 0L9 16v-6m0 0l6-3"
                       />
                     </svg>
-                    <span>{book.views}</span>
+                    <span>{book.page_count}</span>
                   </div>
                 </div>
                 <div className="p-2">
                   <h3 className="text-sm font-semibold truncate" title={book.title}>
                     {book.title}
                   </h3>
-                  <p className="text-xs text-gray-400 truncate">{book.subtitle}</p>
+                  <p className="text-xs text-gray-400 truncate">{book.description}</p>
                 </div>
-              </article>
+              </a>
             ))}
           </div>
         </section>
@@ -272,14 +199,14 @@ useEffect(() => {
           <div className="flex gap-4 pb-4 w-max">
             <div className="flex-shrink-0 flex gap-8">
               <div className="grid grid-cols-2 gap-x-4 gap-y-4">
-                {rankingData.map((item, index) => (
-                  <div
+                {rankData.map((item, index) => (
+                  <a href={`/book/${item.id}`}
                     key={item.id}
                     className="flex items-center gap-4 p-1 rounded-lg w-64"
                   >
                     <div className="relative">
                       <img
-                        src={item.cover}
+                        src={`${apiUrl}/${item.image_path}`}
                         alt="Cover"
                         className="w-20 h-28 rounded-md object-cover"
                         onError={(e) => {
@@ -298,7 +225,7 @@ useEffect(() => {
                         {item.title}
                       </h2>
                       <p className="text-gray-500 text-sm truncate">
-                        {item.author} | {item.genre}
+                        {item.description}
                       </p>
                       <div className="flex items-center text-gray-400 text-xs mt-1">
                         <svg
@@ -322,10 +249,10 @@ useEffect(() => {
                             0-8.268-2.943-9.542-7z"
                           />
                         </svg>
-                        {item.views}
+                        {item.page_count}
                       </div>
                     </div>
-                  </div>
+                  </a>
                 ))}
               </div>
             </div>
@@ -339,26 +266,29 @@ useEffect(() => {
           <h2 className="font-bold text-lg text-white">Category</h2>
           <select
             className="bg-[#202020] text-white text-sm px-3 py-1 rounded-sm"
-            onChange={(e) => handleCategoryChange(e.target.value)} 
+            onChange={(e) => setPickCategory(e.target.value)} 
           >
-            <option value="">All</option>
-            <option value="novel">Novel</option>
-            <option value="komik">Komik</option>
-            <option value="biografi">Biografi</option>
-            {/* Tambahkan opsi kategori lainnya */}
+            {
+              allCategory?.map((data) => (
+                <>
+                  <option value={data.id}>{data.category}</option>
+                </>
+              ))
+            }
           </select>
         </div>
 
-        {categories.map((item, index) => (
-          <div
+        {categoryData.map((item, index) => (
+          <a href={`/book/${item.id}`}
             key={item.id}
-            className="flex items-center gap-4 p-3 rounded-md"
+            className="flex items-start gap-4 p-3 rounded-md"
           >
-            <div className="relative">
+            {/* Gambar */}
+            <div className="w-26 h-34 flex-shrink-0 relative">
               <img
-                src={item.cover}
+                src={`${apiUrl}/${item.image_path}`}
                 alt={`Cover of ${item.title}`}
-                className="w-36 h-32 rounded-md object-cover flex-shrink-0"
+                className="w-full h-full rounded-md object-cover"
                 onError={(e) => {
                   e.target.onerror = null;
                   e.target.src =
@@ -367,14 +297,12 @@ useEffect(() => {
               />
             </div>
 
+            {/* Konten */}
             <div className="flex flex-col flex-grow overflow-hidden min-w-0">
               <h2 className="text-white font-semibold truncate select-text">
                 {item.title}
               </h2>
-              <p className="text-gray-500 text-sm truncate select-text">
-                {item.author} | {item.genre}
-              </p>
-              <div className="text-gray-400 text-xs mt-1 select-text truncate">
+              <div className="text-gray-400 text-xs mt-1 select-text line-clamp-3">
                 {item.description}
               </div>
               <div className="flex items-center text-gray-400 text-xs mt-1 select-none">
@@ -385,7 +313,6 @@ useEffect(() => {
                   viewBox="0 0 24 24"
                   stroke="currentColor"
                   strokeWidth={2}
-                  aria-hidden="true"
                 >
                   <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                   <path
@@ -396,10 +323,11 @@ useEffect(() => {
                         0-8.268-2.943-9.542-7z"
                   />
                 </svg>
-                {item.views}
+                {item.page_count}
               </div>
             </div>
-          </div>
+          </a>
+
         ))}
       </div>
 

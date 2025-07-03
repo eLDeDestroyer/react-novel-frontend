@@ -1,17 +1,34 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ImageIcon } from "lucide-react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+const apiUrl = import.meta.env.VITE_API_URL;
 
 
 const AddBook = () => {
-const [formData, setFormData] = useState({
-  title: "",
-  description: "",
-  image: null,
-  category: "", // 👈 tambah ini
-});
-
-
+  const token = localStorage.getItem("token")
+  const [formData, setFormData] = useState({
+    title: "",
+    description: "",
+    image: null,
+    page: ""
+  });
   const [preview, setPreview] = useState(null);
+  const [data,setData] = useState()
+  const [category,setCategory] = useState()
+  const navigate = useNavigate()
+
+
+
+  const fetchData = async() => {
+      const res = await axios.get(`${apiUrl}/api/auth/categories`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      })
+      console.log(res.data.data)
+      setData(res.data.data)
+  }
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;
@@ -25,27 +42,83 @@ const [formData, setFormData] = useState({
     }
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+const handleSubmit = async (e) => {
+  e.preventDefault();
 
-    // Validasi sederhana
-    if (!formData.title || !formData.description || !formData.image) {
-      alert("Semua field wajib diisi!");
-      return;
-    }
+  if (!formData.title || !formData.description || !formData.image) {
+    alert("Semua field wajib diisi!");
+    return;
+  }
 
-    const data = new FormData();
-    data.append("title", formData.title);
-    data.append("description", formData.description);
-    data.append("image", formData.image);
+  const data = new FormData();
+  data.append("title", formData.title);
+  data.append("description", formData.description);
+  data.append("image", formData.image);
 
-    // TODO: kirim ke API dengan fetch atau axios
-    console.log("Form dikirim:", formData);
+  try {
+    const res = await axios.post(`${apiUrl}/api/auth/book/add`, data, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'multipart/form-data',
+      },
+    });
 
-    // Reset form
-    setFormData({ title: "", description: "", image: null });
-    setPreview(null);
-  };
+    handleAddBookCategory(res.data.data); 
+  } catch (err) {
+    console.error("Gagal menambahkan buku:", err);
+    alert("Gagal menambahkan buku!");
+  }
+};
+
+const handleAddBookCategory = async (bookId) => {
+  try {
+    await axios.post(
+      `${apiUrl}/api/auth/book/categories/add`,
+      {
+        book_id: bookId,
+        category_id: [parseInt(category)],
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    handleAddBookPage(bookId)
+  } catch (err) {
+    console.error("Gagal menyimpan kategori:", err);
+    alert("Kategori gagal ditambahkan!");
+  }
+};
+
+const handleAddBookPage = async (bookId) => {
+  try {
+    await axios.post(
+      `${apiUrl}/api/auth/book/page/add`,
+      {
+        book_id: bookId,
+        text: formData.page,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    alert("Buku berhasil disimpan!");
+    navigate("/user")
+  } catch (err) {
+    console.error("Gagal menyimpan kategori:", err);
+    alert("Kategori gagal ditambahkan!");
+  }
+};
+
+
+
+  useEffect(() => {
+    fetchData()
+  },[])
 
   return (
     <div className="max-w-md mx-auto p-6 bg-black text-white min-h-screen">
@@ -125,6 +198,26 @@ const [formData, setFormData] = useState({
         ></textarea>
     </div>
 
+
+    {/* Bab 1 */}
+    <div>
+        <label htmlFor="page" className="block mb-1 font-medium">
+        Bab 1
+        </label>
+        <textarea
+        name="page"
+        id="page"
+        required
+        value={formData.page}
+        onChange={handleChange}
+        className="w-full px-3 py-2 rounded bg-gray-800 text-white focus:outline-none"
+        rows="4"
+        placeholder="Masukan cerita untuk memulai"
+        ></textarea>
+    </div>
+
+    
+
   {/* Category */}
     <div>
     <label htmlFor="category" className="block mb-1 font-medium">
@@ -134,18 +227,19 @@ const [formData, setFormData] = useState({
         name="category"
         id="category"
         required
-        value={formData.category}
-        onChange={handleChange}
+        onChange={(e) => setCategory(e.target.value)}
         className="w-full px-3 py-2 rounded bg-gray-800 text-white focus:outline-none"
     >
         <option value="" disabled>
         Pilih kategori
         </option>
-        <option value="petualangan">Petualangan</option>
-        <option value="romantis">Romantis</option>
-        <option value="fantasi">Fantasi</option>
-        <option value="horor">Horor</option>
-        <option value="komedi">Komedi</option>
+        {
+          data?.map((item) => (
+            <>
+              <option value={item.id}>{item.category}</option>
+            </>
+          ))
+        }
     </select>
     </div>
 

@@ -1,21 +1,16 @@
+import axios from 'axios';
 import React, { useEffect, useState } from 'react'
-import Bar from '../components/Bar';
-import axios from "axios";
+import { useLocation, useParams } from 'react-router-dom';
 const apiUrl = import.meta.env.VITE_API_URL;
 
 
-const Search = () => {
+const ActionBookHistories = () => {
   const token = localStorage.getItem("token")
-  const [text, setText] = useState("")
-  const [data,setData] = useState([])
+  const [data,setData] = useState()
 
 
-  const handleText = (e) => {
-    setText(e.target.value)
-  }
-
-  const fetchSearchData = async() => { 
-    const res = await axios.get(`${apiUrl}/api/auth/book/search?title=${text}`, {
+  const fetcData = async() => {
+    const res = await axios.get(`${apiUrl}/api/auth/user/action/save`, {
       headers: {
         Authorization: `Bearer ${token}`
       }
@@ -26,27 +21,18 @@ const Search = () => {
   }
 
   useEffect(() => {
-    fetchSearchData()
-  }, [text]);
-  
+    fetcData()
+  }, []);
 
   return (
-    <div className="max-w-md mx-auto bg-black min-h-screen text-white font-sans flex flex-col pb-[5rem]">
-      {/* Search Bar */}
-      <div className="p-4">
-        <input
-          type="search"
-          onChange={(e) => handleText(e)}
-          placeholder="Cari karya"
-          className="w-full p-3 rounded-lg bg-[#101010] placeholder-gray-400 text-white focus:outline-none focus:ring-2 focus:ring-green-500"
-          aria-label="Cari karya"
-        />
-      </div>
-
-
-      {/* Category Section */}
-      <div className="m-[1rem] pt-[0.8rem] bg-[#090909] rounded-md">
-        {data.map((item, index) => (
+    <>
+    <div className='relative max-w-md mx-auto bg-black min-h-screen text-white font-sans flex flex-col pb-[5rem]'>
+           <div className="m-[1rem] pt-[0.8rem] bg-[#090909] rounded-md">
+        <div className="px-4 flex justify-between items-center mb-3">
+          <h2 className="font-bold text-lg text-white">Buku yang anda simpan</h2>
+        </div>
+     
+        {data?.map((item, index) => (
           <a href={`/book/${item.id}`}
             key={item.id}
             className="flex items-start gap-4 p-3 rounded-md"
@@ -98,11 +84,9 @@ const Search = () => {
 
         ))}
       </div>
-
-        <Bar/>
-
     </div>
-  );
-};
+    </>
+  )
+}
 
-export default Search
+export default ActionBookHistories
