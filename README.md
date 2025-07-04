@@ -34,4 +34,5 @@ This frontend uses the following API:
 To connect, configure your `.env` file:
 
 ```env
-VITE_API_URL=http://localhost:8000
+Golang_URL=http://localhost:3000
+Larevel_URL=http://localhost:8000
