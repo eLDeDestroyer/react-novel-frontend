@@ -15,7 +15,7 @@ const AddBook = () => {
   });
   const [preview, setPreview] = useState(null);
   const [data,setData] = useState()
-  const [category,setCategory] = useState()
+  const [category,setCategory] = useState(1)
   const navigate = useNavigate()
 
 
