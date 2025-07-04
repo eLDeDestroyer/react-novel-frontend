@@ -22,6 +22,11 @@ const User = () => {
     setData(res.data.data)
   }
 
+  const handleLogout = async() => {
+    localStorage.removeItem("token")
+    window.location.reload()
+  }
+
   useEffect(() => {
     fetcData()
   }, []);
@@ -167,6 +172,23 @@ const User = () => {
             </svg>
           </a>
         ))}
+        <div onClick={handleLogout}
+            className="flex items-center justify-between border-b border-gray-700 last:border-none py-3 cursor-pointer hover:bg-opacity-10 rounded px-2"
+          >
+            <div className="flex items-center gap-3 text-sm font-semibold">
+              <span>Keluar dari akun anda saat ini</span>
+            </div>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="w-5 h-5 text-gray-400"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth={2}
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+            </svg>
+          </div>
       </nav>
 
       <Bar/>
