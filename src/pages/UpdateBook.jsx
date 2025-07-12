@@ -61,10 +61,11 @@ const UpdateBook = () => {
     const sendData = new FormData();
     sendData.append("title", formData.title);
     sendData.append("description", formData.description);
+    sendData.append("_method", "PATCH");
     if (formData.image) sendData.append("image", formData.image);
 
     try {
-      await axios.patch(`${apiUrl}/api/auth/book/update/${id}`, sendData, {
+      await axios.post(`${apiUrl}/api/auth/book/update/${id}`, sendData, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "multipart/form-data",
